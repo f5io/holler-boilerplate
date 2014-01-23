@@ -1,0 +1,11 @@
+{
+  "name": "holler-boilerplate",
+  "version": "0.0.1",
+  "devDependencies": {
+    "gulp": "*",
+    "gulp-uglify": "*",
+    "gulp-concat": "*",
+    "gulp-compass": "*",
+    "gulp-filesize": "*"
+  }
+}
