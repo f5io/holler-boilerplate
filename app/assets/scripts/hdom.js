@@ -344,7 +344,12 @@
 
     var hDOM = function(sel) {
         if (typeof sel === 'string') {
-            return new ElementCollection([].slice.call(d.querySelectorAll(sel)));
+            var els = Object(d.querySelectorAll(sel));
+            var arr = [];
+            for (var prop in els) {
+                arr[prop] = els;
+            }
+            return new ElementCollection(arr);
         } else if ('nodeType' in sel || sel === w) {
             return new ElementCollection([sel]);
         } else if (typeof sel === 'function') {
