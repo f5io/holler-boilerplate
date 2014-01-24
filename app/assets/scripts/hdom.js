@@ -347,7 +347,7 @@
             var els = Object(d.querySelectorAll(sel));
             var arr = [];
             for (var prop in els) {
-                arr[prop] = els;
+                arr[prop] = els[prop];
             }
             return new ElementCollection(arr);
         } else if ('nodeType' in sel || sel === w) {
