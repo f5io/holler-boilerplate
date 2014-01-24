@@ -80,7 +80,7 @@
 
     if (!Object.defineProperty || !(function() { try { Object.defineProperty({}, 'x', {}); return true; } catch(e) { return false; }})()) {
         var orig = Object.defineProperty;
-        Object.defineProperty - function(o, prop, desc) {
+        Object.defineProperty = function(o, prop, desc) {
             if (orig) {
                 try {
                     return orig(o, prop, desc);
