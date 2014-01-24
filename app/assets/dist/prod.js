@@ -78,10 +78,29 @@
             }
         };
 
-    Object.defineProperty = Object.defineProperty || function(obj, fn, values) {
-        obj = obj || {};
-        obj[fn] = values.value;
-    };
+    if (!Object.defineProperty || !(function() { try { Object.defineProperty({}, 'x', {}); return true; } catch(e) { return false; }})()) {
+        var orig = Object.defineProperty;
+        Object.defineProperty - function(o, prop, desc) {
+            if (orig) {
+                try {
+                    return orig(o, prop, desc);
+                } catch(e) {}
+            }
+
+            if (Object.prototype.__defineSetter__ && ('set' in desc)) {
+                Object.prototype.__defineSetter__.call(o, prop, desc.set);
+            }
+
+            if (Object.prototype.__defineGetter__ && ('get' in desc)) {
+                Object.prototype.__defineGetter__.call(o, prop, desc.get);
+            }
+
+            if ('value' in desc) {
+                o[prop] = desc.value;
+            }
+
+        };
+    }
 
     var ElementCollection = function(arr) {
         _utils.extend(this, arr);
