@@ -344,11 +344,10 @@
 
     var hDOM = function(sel) {
         if (typeof sel === 'string') {
-            var els = Object(d.querySelectorAll(sel));
             var arr = [];
-            for (var prop in els) {
-                arr[prop] = els[prop];
-            }
+            _utils.each(d.querySelectorAll(sel), function(val, prop) {
+                arr[prop] = val;
+            });
             return new ElementCollection(arr);
         } else if ('nodeType' in sel || sel === w) {
             return new ElementCollection([sel]);
