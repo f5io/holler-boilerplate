@@ -43,6 +43,13 @@
 
                 if (!args.url) return;
                 if (args.method === 'GET' && !args.cache) args.data += '_=' + new Date().getTime();
+                if (args.method === 'POST' && typeof args.data === 'object') {
+                    var qs = '';
+                    for (var val in args.data) {
+                        qs += val + '=' + args.data[val] + '&';
+                    }
+                    args.data = qs.slice(0, -1);
+                }
 
                 var xhr = new XMLHttpRequest();
                 xhr.onreadystatechange = function() {
@@ -343,6 +350,7 @@
     }));
 
     var hDOM = function(sel) {
+        if (sel === null || typeof sel === 'undefined') return new ElementCollection([]);
         if (typeof sel === 'string') {
             var arr = [];
             _utils.each(d.querySelectorAll(sel), function(val, prop) {
