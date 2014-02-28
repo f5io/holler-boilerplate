@@ -133,7 +133,55 @@
                         });
                     };
                 }
-            })()
+            })(),
+            scrollTop: (function() {
+                if (typeof w.pageYOffset !== 'undefined') {
+                    return function(val) {
+                        if (val && !isNaN(val)) {
+                            var b = ('clientHeight' in d.documentElement) ? d.documentElement : d.body;
+                            b.scrollTop = val;
+                        }
+                        return w.pageYOffset;
+                    };
+                } else {
+                    var b = ('clientHeight' in d.documentElement) ? d.documentElement : d.body;
+                    return function(val) {
+                        if (val && !isNaN(val)) b.scrollTop = val;
+                        return b.scrollTop;
+                    };
+                }
+            })(),
+            windowHeight: (function() {
+                if (typeof w.innerHeight !== 'undefined') {
+                    return function() {
+                        return w.innerHeight;
+                    };
+                } else {
+                    var b = ('clientHeight' in d.documentElement) ? d.documentElement : d.body;
+                    return function() {
+                        return b.clientHeight;
+                    };
+                }
+            })(),
+            windowWidth: (function() {
+                if (typeof w.innerWidth !== 'undefined') {
+                    return function() {
+                        return w.innerWidth;
+                    };
+                } else {
+                    var b = ('clientWidth' in d.documentElement) ? d.documentElement : d.body;
+                    return function() {
+                        return b.clientWidth;
+                    };
+                }
+            })(),
+            documentHeight: function() {
+                return Math.max(
+                    Math.max(d.body.scrollHeight, d.documentElement.scrollHeight),
+                    Math.max(d.body.offsetHeight, d.documentElement.offsetHeight),
+                    Math.max(d.body.clientHeight, d.documentElement.clientHeight)
+                );
+            }
         };
 
     if (!Object.defineProperty || !(function() { try { Object.defineProperty({}, 'x', {}); return true; } catch(e) { return false; }})()) {
@@ -434,8 +482,9 @@
     }));
 
     Object.defineProperty(ElementCollection.prototype, 'width', _utils.extend(_defaults, {
-        value: function(w) {
+        value: function(width) {
             var val;
+            if (this[0] === w) return _utils.windowWidth();
             this.each(function() {
                 if (typeof w === 'undefined') {
                     val = parseInt(this.style.width, 10);
@@ -444,7 +493,7 @@
                         val = rect.right - rect.left;
                     }
                 } else {
-                    this.style.width = w + 'px';
+                    this.style.width = width + 'px';
                 }
             });
             return val || this;
@@ -452,8 +501,10 @@
     }));
 
     Object.defineProperty(ElementCollection.prototype, 'height', _utils.extend(_defaults, {
-        value: function(h) {
+        value: function(height) {
             var val;
+            if (this[0] === w) return _utils.windowHeight();
+            if (this[0] === d) return _utils.documentHeight();
             this.each(function() {
                 if (typeof h === 'undefined') {
                     val = parseInt(this.style.height, 10);
@@ -462,7 +513,7 @@
                         val = rect.bottom - rect.top;
                     }
                 } else {
-                    this.style.height = h + 'px';
+                    this.style.height = height + 'px';
                 }
             });
             return val || this;
@@ -548,6 +599,7 @@
                 touchend: function(e) {
                     if (notMoved) {
                         createEvent(e, 'fastclick');
+                        createEvent(e, 'tap');
                     } else {
                         var x = endPos.x - startPos.x,
                             xr = Math.abs(x),
@@ -576,6 +628,7 @@
     hDOM.extend = _utils.extend;
     hDOM.ajax = _utils.ajax;
     hDOM.emitter = _utils.emitter;
+    hDOM.scrollTop = _utils.scrollTop;
 
     w.$ = w.$ || hDOM;
     w.hDOM = hDOM;
