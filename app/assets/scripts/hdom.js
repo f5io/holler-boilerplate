@@ -59,6 +59,11 @@
                     emit: emit
                 };
             })(),
+            format: function(str, obj) {
+                return str.toString().replace(/\{([^}]+)\}/g, function(match, group) {
+                    return obj[group];
+                });
+            },
             ajax: function(opts) {
                 var args = _utils.extend({
                     url : undefined,
@@ -626,6 +631,7 @@
     hDOM.ready = _utils.ready;
     hDOM.each = _utils.each;
     hDOM.extend = _utils.extend;
+    hDOM.format = _utils.format;
     hDOM.ajax = _utils.ajax;
     hDOM.emitter = _utils.emitter;
     hDOM.scrollTop = _utils.scrollTop;
