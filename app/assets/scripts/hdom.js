@@ -186,6 +186,13 @@
                     Math.max(d.body.offsetHeight, d.documentElement.offsetHeight),
                     Math.max(d.body.clientHeight, d.documentElement.clientHeight)
                 );
+            },
+            documentWidth: function() {
+                return Math.max(
+                    Math.max(d.body.scrollWidth, d.documentElement.scrollWidth),
+                    Math.max(d.body.offsetWidth, d.documentElement.offsetWidth),
+                    Math.max(d.body.clientWidth, d.documentElement.clientWidth)
+                );
             }
         };
 
@@ -490,6 +497,7 @@
         value: function(width) {
             var val;
             if (this[0] === w) return _utils.windowWidth();
+            if (this[0] === d) return _utils.documentWidth();
             this.each(function() {
                 if (typeof w === 'undefined') {
                     val = parseInt(this.style.width, 10);
