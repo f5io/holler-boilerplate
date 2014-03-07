@@ -499,7 +499,7 @@
             if (this[0] === w) return _utils.windowWidth();
             if (this[0] === d) return _utils.documentWidth();
             this.each(function() {
-                if (typeof w === 'undefined') {
+                if (typeof width === 'undefined') {
                     val = parseInt(this.style.width, 10);
                     if (isNaN(val)) {
                         var rect = this.getBoundingClientRect();
@@ -519,7 +519,7 @@
             if (this[0] === w) return _utils.windowHeight();
             if (this[0] === d) return _utils.documentHeight();
             this.each(function() {
-                if (typeof h === 'undefined') {
+                if (typeof height === 'undefined') {
                     val = parseInt(this.style.height, 10);
                     if (isNaN(val)) {
                         var rect = this.getBoundingClientRect();
